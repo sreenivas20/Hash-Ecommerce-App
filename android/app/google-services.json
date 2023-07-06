@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "831073843954",
+    "project_id": "hash-e-commerce",
+    "storage_bucket": "hash-e-commerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831073843954:android:402a9350e42bdbe2902e6b",
+        "android_client_info": {
+          "package_name": "com.example.hash_ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831073843954-36idtet1g9lqusg4f9k7gg0h6esm3arn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBui5UdBQGjvphw7-xeBs8JXKql86W5w7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831073843954-36idtet1g9lqusg4f9k7gg0h6esm3arn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "831073843954-62nh7583nrc9vtqp7kdm6e7bslikra3v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hashEcommerce.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831073843954:android:084c397fc9cb1b71902e6b",
+        "android_client_info": {
+          "package_name": "com.example.hash_ecommerce_user_sideapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831073843954-36idtet1g9lqusg4f9k7gg0h6esm3arn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBui5UdBQGjvphw7-xeBs8JXKql86W5w7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831073843954-36idtet1g9lqusg4f9k7gg0h6esm3arn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "831073843954-62nh7583nrc9vtqp7kdm6e7bslikra3v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hashEcommerce.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

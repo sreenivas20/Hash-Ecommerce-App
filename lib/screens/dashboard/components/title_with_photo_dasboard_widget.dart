@@ -19,14 +19,14 @@ class TitleWithPhotoWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 26,
                   color: Colors.black,
                 ),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(right: 18, top: 20),
-          height: 220.h,
+          margin: EdgeInsets.only(right: 25, top: 20),
+          height: 210.h,
           width: 950.w,
           decoration: const BoxDecoration(
             image: DecorationImage(

@@ -15,10 +15,9 @@ class BottomNavBar extends StatelessWidget {
       valueListenable: indexChangeNotifier,
       builder: (context, int newIndex, _) {
         return SizedBox(
-          height: 100.h,
+          height: 115.h,
           child: FloatingNavbar(
               backgroundColor: Colors.white,
-
               // padding: const EdgeInsets.all(10),
               elevation: 0,
               selectedBackgroundColor: kPrimaryColor,

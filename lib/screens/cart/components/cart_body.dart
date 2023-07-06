@@ -33,7 +33,7 @@ class CartBody extends StatelessWidget {
               },
             ),
           ),
-          kSizedBox10,
+          // kSizedBox5,
           const PromocodecartWidget(),
           const BillingTextWidget(),
           cartbuttonPreview(60.h, 1900.w, 'Proceed to Checout', () {})
@@ -84,7 +84,7 @@ class BillingTextWidget extends StatelessWidget {
           Text(
               '---------------------------------------------------------------------------------------------------'),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: BillingTextFormatWidget(text1: 'Total Amount', text2: '334'),
           )
         ],
@@ -112,14 +112,14 @@ class BillingTextFormatWidget extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+              ?.copyWith(fontWeight: FontWeight.bold, fontSize: 15),
         ),
         Text(
           '\$ $text2 ',
           style: Theme.of(context)
               .textTheme
               .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold, fontSize: 17),
+              ?.copyWith(fontWeight: FontWeight.bold, fontSize: 15),
         ),
       ],
     );

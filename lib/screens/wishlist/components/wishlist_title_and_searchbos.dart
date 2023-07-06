@@ -25,7 +25,7 @@ class WishListTitltandSearchbox extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(right: 20),
           height: 80.h,
-          width: 1300.w,
+          width: 1250.w,
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black,

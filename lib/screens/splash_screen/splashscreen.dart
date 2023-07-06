@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hash_ecommerce_user_sideapp/screens/login_screen/login_screen.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/widgettree.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             fullscreenDialog: true,
-            builder: (context) =>  LoginScreen(),
+            builder: (context) =>  Widgettree(),
           ),
         );
       },

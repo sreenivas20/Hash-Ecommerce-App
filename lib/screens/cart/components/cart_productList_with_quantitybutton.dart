@@ -12,9 +12,9 @@ class CartProductListWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          margin: const EdgeInsets.all(10),
-          height: 200.h,
-          width: 900.w,
+          margin: const EdgeInsets.only(left: 15),
+          height: 180.h,
+          width: 800.w,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             image: DecorationImage(
@@ -26,7 +26,7 @@ class CartProductListWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 30.0, left: 30),
+          padding: const EdgeInsets.only(bottom: 0.0, left: 30),
           child: SizedBox(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +89,8 @@ class CartProductListWidget extends StatelessWidget {
 
   cartbuildOutlinedButton({IconData? icon, Function()? press}) {
     return SizedBox(
-      width: 40,
-      height: 32,
+      width: 30,
+      height: 26,
       child: OutlinedButton(
         style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(

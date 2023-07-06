@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/cart/cart.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/product_details/details_body.dart';
 
 class ProductListWidgetScreen extends StatelessWidget {
@@ -11,10 +13,9 @@ class ProductListWidgetScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: productscreenappbar(context),
-     ////////////////////* The Full body widget of the product details///////////////////////////
+      ////////////////////* The Full body widget of the product details///////////////////////////
       body: const ProductDetailsBody(),
-     ////////////////////* The Full body widget of the product details///////////////////////////
-
+      ////////////////////* The Full body widget of the product details///////////////////////////
     );
   }
 
@@ -33,7 +34,13 @@ class ProductListWidgetScreen extends StatelessWidget {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                builder: (context) => CartScreen(),
+              ),
+            );
+          },
           icon: SvgPicture.asset('assets/icons/cart-svgrepo-com.svg'),
         ),
         const SizedBox(

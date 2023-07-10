@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,7 +7,9 @@ import 'package:hash_ecommerce_user_sideapp/screens/cart/cart.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/product_details/details_body.dart';
 
 class ProductListWidgetScreen extends StatelessWidget {
-  const ProductListWidgetScreen({super.key});
+  const ProductListWidgetScreen({super.key, required this.productdata});
+
+  final DocumentSnapshot productdata;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class ProductListWidgetScreen extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       appBar: productscreenappbar(context),
       ////////////////////* The Full body widget of the product details///////////////////////////
-      body: const ProductDetailsBody(),
+      body:  ProductDetailsBody(productData: productdata),
       ////////////////////* The Full body widget of the product details///////////////////////////
     );
   }

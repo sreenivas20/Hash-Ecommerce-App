@@ -9,8 +9,10 @@ import 'package:hash_ecommerce_user_sideapp/screens/home/components/header_with_
 import 'package:hash_ecommerce_user_sideapp/screens/home/components/productlist_widget.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/home/components/title_with_morw_button.dart';
 import 'package:provider/provider.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import '../../product_details/product_details_screen.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -44,35 +46,73 @@ class Body extends StatelessWidget {
             ),
           ),
           ////////////////////////////////*Product List widgets*///////////////////////////////////////
+          // StreamBuilder(
+          //   stream: Provider.of<Logics>(context).productDb.snapshots(),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.hasData) {
+          //       return GridView.builder(
+          //         physics: const NeverScrollableScrollPhysics(),
+          //         shrinkWrap: true,
+          //         itemCount: snapshot.data!.docs.length,
+          //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //           crossAxisCount: 2,
+          //           mainAxisSpacing: 20,
+          //         ),
+          //         itemBuilder: (context, index) {
+          //           final DocumentSnapshot productData =
+          //               snapshot.data!.docs[index];
+          //           return ProductWidgetList(
+          //               productData: productData,
+          //               image: 'assets/images/S4.png',
+          //               price: 243,
+          //               title: 'Merino Fleece Shirt',
+          //               press: () {
+          //                 Navigator.of(context).push(
+          //                   MaterialPageRoute(
+          //                     builder: (context) =>
+          //                         const ProductListWidgetScreen(),
+          //                   ),
+          //                 );
+          //               });
+          //         },
+          //       );
+          //     }
+          //     return const Center(
+          //       child: CircularProgressIndicator(),
+          //     );
+          //   },
+          // ),
           StreamBuilder(
             stream: Provider.of<Logics>(context).productDb.snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return GridView.builder(
+                return StaggeredGridView.countBuilder(
                   physics: const NeverScrollableScrollPhysics(),
+                  addAutomaticKeepAlives: true,
                   shrinkWrap: true,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 0,
                   itemCount: snapshot.data!.docs.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                  ),
                   itemBuilder: (context, index) {
                     final DocumentSnapshot productData =
                         snapshot.data!.docs[index];
                     return ProductWidgetList(
-                        productData: productData,
-                        image: 'assets/images/S4.png',
-                        price: 243,
-                        title: 'Merino Fleece Shirt',
-                        press: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const ProductListWidgetScreen(),
-                            ),
-                          );
-                        });
+                      productData: productData,
+                      image: 'assets/images/S4.png',
+                      price: 243,
+                      title: 'Merino Fleece Shirt',
+                      press: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                  ProductListWidgetScreen(productdata: productData),
+                          ),
+                        );
+                      },
+                    );
                   },
+                  staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
                 );
               }
               return const Center(

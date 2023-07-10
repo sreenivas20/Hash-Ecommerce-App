@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/authentication/auth.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/bottonnavbar/bottomnavbar.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/dashboard/components/dasboard_menu_and_title.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/dashboard/components/title_with_photo_dasboard_widget.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/myorder/myorder_screen.dart';
@@ -10,7 +11,7 @@ import 'package:hash_ecommerce_user_sideapp/screens/myorder/myorder_screen.dart'
 class DashBoardBody extends StatelessWidget {
   const DashBoardBody({super.key});
 
-   Future<void> signOut() async {
+  Future<void> signOut() async {
     await Auth().signout();
   }
 
@@ -41,7 +42,10 @@ class DashBoardBody extends StatelessWidget {
               // );
             },
           ),
-          dashBoardLogoutButton(70.h, 2200.w, 'Logout', signOut)
+          dashBoardLogoutButton(70.h, 2200.w, 'Logout', () {
+            alertBox(context);
+            // signOut();
+          })
         ],
       ),
     );
@@ -62,6 +66,34 @@ class DashBoardBody extends StatelessWidget {
         style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
       ),
+    );
+  }
+
+  alertBox(context) {
+    showDialog(
+      // barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text('Logout'),
+          content: const Text("Are you Sure"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('No')),
+            TextButton(
+                onPressed: () {
+                  signOut();
+                  indexChangeNotifier.value = 0;
+                  Navigator.pop(context);
+                },
+                child: const Text('Yes'))
+          ],
+        );
+      },
     );
   }
 }

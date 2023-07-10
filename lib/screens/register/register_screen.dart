@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/authentication/auth.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
-import 'package:hash_ecommerce_user_sideapp/screens/home/mainhome_screen.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/login_screen/login_screen.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/register/components/threeregtextfield.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/widgettree.dart';
@@ -31,7 +30,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Form(
         key: formkey,
         child: Container(
@@ -89,7 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       password: passcontroller.text),
                   kSizedBox20,
                   InkWell(
-                    onTap: () => Navigator.of(context).pushReplacement(CupertinoPageRoute(
+                    onTap: () => Navigator.of(context)
+                        .pushReplacement(CupertinoPageRoute(
                       fullscreenDialog: true,
                       allowSnapshotting: true,
                       builder: (context) => LoginScreen(),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -29,6 +30,7 @@ class Auth {
 
   Future<void> signout() async {
     await _firebaseAuth.signOut();
+    await GoogleSignIn().signOut();
   }
 
   static saveUser(String name, email, uid) async {
@@ -38,7 +40,21 @@ class Auth {
         .set({'email': email, 'name': name});
   }
 
-  Future<void> savecredential(String name,email) async {
+  Future<void> savecredential(String name, email) async {
     saveUser(name, email, _firebaseAuth.currentUser!.uid);
+  }
+
+  Future<void> signinwithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    UserCredential userCredential =
+        await _firebaseAuth.signInWithCredential(credential);
+    print(userCredential.user?.displayName);
   }
 }

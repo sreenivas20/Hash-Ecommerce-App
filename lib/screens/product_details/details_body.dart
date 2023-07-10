@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/product_details/components/addtocart_and_buybutton_widget.dart';
@@ -5,8 +6,8 @@ import 'package:hash_ecommerce_user_sideapp/screens/product_details/components/p
 import 'package:hash_ecommerce_user_sideapp/screens/product_details/components/quantity_with_favbutton_widget.dart';
 
 class ProductDetailsBody extends StatelessWidget {
-  const ProductDetailsBody({super.key});
-
+  const ProductDetailsBody({super.key, required this.productData});
+  final DocumentSnapshot productData;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -33,13 +34,13 @@ class ProductDetailsBody extends StatelessWidget {
                       topRight: Radius.circular(24),
                     ),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 'Size',
@@ -47,7 +48,7 @@ class ProductDetailsBody extends StatelessWidget {
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 ////////////////////* Size Dots Widgets*////////////////////////////
                                 SizeDot(size: 'S'),
@@ -58,19 +59,20 @@ class ProductDetailsBody extends StatelessWidget {
                               ],
                             ),
                             ////////////////////* Description Widgets*////////////////////////////
-                            Description(),
+                            Description(
+                                description: productData['description']),
                             ////////////////////* Description Widgets*////////////////////////////
 
-                            SizedBox(
+                            const SizedBox(
                               height: kDefaultPadding,
                             ),
                             ////////////////////////////////* Quantity and Fav Button Widget*////////////////////////////////
-                            QuantityWithfavbutton(),
+                            const QuantityWithfavbutton(),
                             ////////////////////////////////* Quantity and Fav Button Widget*////////////////////////////////*
-                            SizedBox(
+                            const SizedBox(
                               height: kDefaultPadding,
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: kDefaultPadding),
                               ////////////////////* Cart and Buy Now button Widget*////////////////////////////
@@ -84,7 +86,7 @@ class ProductDetailsBody extends StatelessWidget {
                   ),
                 ),
                 ////////////////*The Image And Price Widget*/////////////
-                const ProductTitleImageWidget()
+                 ProductTitleImageWidget(productData: productData,)
               ],
             ),
           )
@@ -97,15 +99,17 @@ class ProductDetailsBody extends StatelessWidget {
 class Description extends StatelessWidget {
   const Description({
     super.key,
+    required this.description,
   });
+  final description;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: kDefaultPadding),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
       child: Text(
-        'With a sun-drenched wash and performance characteristics, the Casablanca Camp Shirt is the perfect transitional piece to wear all day long.',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        description,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       ),
     );
   }
@@ -130,11 +134,11 @@ class SizeDot extends StatelessWidget {
       width: 34,
       decoration: BoxDecoration(
         color: isSelected
-            ? Color.fromARGB(255, 190, 221, 241)
+            ? const Color.fromARGB(255, 190, 221, 241)
             : Colors.transparent,
         shape: BoxShape.circle,
         border: Border.all(
-          color: Color.fromARGB(255, 65, 196, 235),
+          color: const Color.fromARGB(255, 65, 196, 235),
         ),
       ),
       child: Center(

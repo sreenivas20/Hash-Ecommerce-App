@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "831073843954-36idtet1g9lqusg4f9k7gg0h6esm3arn.apps.googleusercontent.com",
+          "client_id": "831073843954-fn1bh6b602qpicomgg94jb43m1l5d7d4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hash_ecommerce",
+            "certificate_hash": "32bb2885c89f57b2543061013a8c84170499452b"
+          }
+        },
+        {
+          "client_id": "831073843954-pog2pfjoe60mvbj5li51fh0avhh6i2kt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -31,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "831073843954-62nh7583nrc9vtqp7kdm6e7bslikra3v.apps.googleusercontent.com",
+              "client_id": "831073843954-3guci7dicrg33sg2i2mrvhp2ghi9t7ne.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.hashEcommerce.RunnerTests"
+                "bundle_id": "com.example.hashEcommerceUserSideapp.RunnerTests"
               }
             }
           ]
@@ -50,7 +58,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "831073843954-36idtet1g9lqusg4f9k7gg0h6esm3arn.apps.googleusercontent.com",
+          "client_id": "831073843954-n71hsjmha2mahijne9b272csm1taqn57.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hash_ecommerce_user_sideapp",
+            "certificate_hash": "32bb2885c89f57b2543061013a8c84170499452b"
+          }
+        },
+        {
+          "client_id": "831073843954-pog2pfjoe60mvbj5li51fh0avhh6i2kt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -67,10 +83,10 @@
               "client_type": 3
             },
             {
-              "client_id": "831073843954-62nh7583nrc9vtqp7kdm6e7bslikra3v.apps.googleusercontent.com",
+              "client_id": "831073843954-3guci7dicrg33sg2i2mrvhp2ghi9t7ne.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.hashEcommerce.RunnerTests"
+                "bundle_id": "com.example.hashEcommerceUserSideapp.RunnerTests"
               }
             }
           ]

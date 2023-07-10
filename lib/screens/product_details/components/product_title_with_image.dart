@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 
 class ProductTitleImageWidget extends StatelessWidget {
   const ProductTitleImageWidget({
     super.key,
+    required this.productData,
   });
-
+  final DocumentSnapshot productData;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,20 +16,19 @@ class ProductTitleImageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Formal Shirts",
+            "${productData['category']} Shirts",
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall
                 ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           Text(
-            'Fair Harbor Casablanca\nCamp Shirt',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+            productData['productName'],
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.normal,
+                fontSize: 18.5),
           ),
-          
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -42,10 +43,10 @@ class ProductTitleImageWidget extends StatelessWidget {
                           ?.copyWith(color: Colors.white),
                     ),
                     TextSpan(
-                      text: '\$243',
+                      text: '₹ ${productData['price']}',
                       style: Theme.of(context)
                           .textTheme
-                          .headlineMedium
+                          .headlineSmall
                           ?.copyWith(
                               color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -57,17 +58,14 @@ class ProductTitleImageWidget extends StatelessWidget {
               ),
               Expanded(
                   child: Container(
-                width: 600,
-                height: 300,
-                decoration: const BoxDecoration(
+                width: 500,
+                height: 280,
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/S2-removebg-preview.png'),
+                    fit: BoxFit.cover,
+                    image: NetworkImage(productData['images']),
                   ),
                 ),
-                // child: Image.asset(
-                //   'assets/images/S2-removebg-preview.png',
-                //   fit: BoxFit.fill,
-                // ),
               ))
             ],
           )

@@ -32,7 +32,7 @@ class ProductWidgetList extends StatelessWidget {
               blur: 180,
               width: 900.w,
               height: 170.h,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               child: Image.network(
                 productData['images'],
@@ -46,7 +46,7 @@ class ProductWidgetList extends StatelessWidget {
               bottom: 150,
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.favorite_border_outlined,
                   color: Colors.red,
                 ),
@@ -57,7 +57,7 @@ class ProductWidgetList extends StatelessWidget {
         GestureDetector(
           onTap: press,
           child: AnimatedContainer(
-            duration: Duration(seconds: 500),
+            duration: const Duration(seconds: 500),
             width: 900.w,
             height: 78.h,
             padding: EdgeInsets.all(40.r),

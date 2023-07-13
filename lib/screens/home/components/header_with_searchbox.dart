@@ -24,7 +24,7 @@ class HeaderWithSearchBox extends StatelessWidget {
               bottom: 30,
             ),
             height: 220.h,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: kPrimaryColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(36),
@@ -67,7 +67,7 @@ class HeaderWithSearchBox extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 10),
                     blurRadius: 50,

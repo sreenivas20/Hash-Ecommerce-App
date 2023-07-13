@@ -2,7 +2,10 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
+import 'package:provider/provider.dart';
 
 class ProductWidgetList extends StatelessWidget {
   const ProductWidgetList({
@@ -24,87 +27,110 @@ class ProductWidgetList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Stack(
-          children: [
-            BlurryContainer(
-              color: Colors.transparent,
-              // color: Colors.white.withOpacity(0.15),
-              blur: 180,
-              width: 900.w,
-              height: 170.h,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-              child: Image.network(
-                productData['images'],
-                fit: BoxFit.cover,
+        Consumer<Logics>(
+          builder: (context, provider, _) {
+            return Stack(children: [
+              Container(
+                // color: Colors.transparent,
+                // color: Colors.white.withOpacity(0.15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        productData['images'],
+                      ),
+                      fit: BoxFit.cover,
+                    )),
+
+                width: 1110.w,
+                height: 350.h,
               ),
-            ),
-            Positioned(
-              right: 0,
-              top: 0,
-              left: 100,
-              bottom: 150,
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border_outlined,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ],
-        ),
-        GestureDetector(
-          onTap: press,
-          child: AnimatedContainer(
-            duration: const Duration(seconds: 500),
-            width: 900.w,
-            height: 78.h,
-            padding: EdgeInsets.all(40.r),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-              color: Colors.white70,
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 10),
-                  blurRadius: 50,
-                  color: kPrimaryColor.withOpacity(0.23),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      kSizedBox5,
-                      RichText(
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '${productData['productName']} ',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
+              Positioned(
+                right: 8,
+                top: 0,
+                left: 125,
+                bottom: 190,
+                child: Container(
+                  width: 40,
+                  height: 35,
+                  decoration: BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Center(
+                      child: IconButton(
+                        onPressed: () {
+                          if (provider.wishListList
+                              .contains(productData['id'])) {
+                            provider.wishListList.remove(productData['id']);
+                            provider.updateFirebase();
+                          } else {
+                            provider.wishListList.add(productData['id']);
+                            provider.updateFirebase();
+                          }
+                        },
+                        icon: Icon(
+                          provider.wishListList.contains(productData['id'])
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined,
+                          color: Colors.red,
+                          size: 19,
                         ),
                       ),
-                      Text(
-                        '₹ ${productData['price']}',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      )
-                    ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+            ]);
+          },
         ),
+        GestureDetector(
+            onTap: press,
+            child: Container(
+              width: 900.w,
+              height: 78.h,
+              padding: EdgeInsets.all(40.r),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kSizedBox5,
+                        RichText(
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '${productData['productName']} ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          '₹ ${productData['price']}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ))
       ],
     );
   }

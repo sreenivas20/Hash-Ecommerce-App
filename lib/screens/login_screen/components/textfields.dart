@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/authentication/auth.dart';
-
+import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
+import 'package:provider/provider.dart';
 
 class TextFeild extends StatelessWidget {
   const TextFeild(
@@ -13,8 +14,8 @@ class TextFeild extends StatelessWidget {
       required this.icon,
       this.obscureText = false,
       required this.validator});
-  final controller;
-  final hintText;
+  final TextEditingController controller;
+  final String hintText;
   final IconData icon;
   final bool obscureText;
   final String? Function(String?) validator;
@@ -47,14 +48,14 @@ class TextFeild extends StatelessWidget {
 
 // ignore: must_be_immutable
 class LoginButton extends StatefulWidget {
-  LoginButton({
+  const LoginButton({
     super.key,
     required this.email,
     required this.password,
     required this.formkey,
   });
-  final email;
-  final password;
+  final String email;
+  final String password;
   final GlobalKey<FormState> formkey;
 
   @override
@@ -67,10 +68,9 @@ class _LoginButtonState extends State<LoginButton> {
       await Auth().signInWithEmailAndPassword(
           email: widget.email, passsword: widget.password);
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMsg = e.message!;
-      });
-      log(" hibh${e.message.toString()}");
+      Provider.of<Logics>(context, listen: false).errorMsg = e.message!;
+
+      log(" ${e.message.toString()}");
     }
   }
 
@@ -91,7 +91,9 @@ class _LoginButtonState extends State<LoginButton> {
           if (widget.formkey.currentState!.validate()) {
             widget.formkey.currentState!.save();
             signInWithEmailAndPassword(context);
-           }
+          }
+
+          Provider.of<Logics>(context, listen: false).errorMsg = '';
         },
         child: const Text(
           'Login',
@@ -100,5 +102,3 @@ class _LoginButtonState extends State<LoginButton> {
     );
   }
 }
-
-String errorMsg = '';

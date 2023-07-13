@@ -14,25 +14,26 @@ class ProductListWidgetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.white,
       appBar: productscreenappbar(context),
       ////////////////////* The Full body widget of the product details///////////////////////////
-      body:  ProductDetailsBody(productData: productdata),
+      body: ProductDetailsBody(productData: productdata),
       ////////////////////* The Full body widget of the product details///////////////////////////
     );
   }
 
   AppBar productscreenappbar(BuildContext context) {
     return AppBar(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.transparent,
       elevation: 0,
       leading: IconButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
         icon: const Icon(
+          color: Colors.black,
           Icons.arrow_back_ios,
-          color: Colors.white,
         ),
       ),
       actions: [
@@ -44,7 +45,8 @@ class ProductListWidgetScreen extends StatelessWidget {
               ),
             );
           },
-          icon: SvgPicture.asset('assets/icons/cart-svgrepo-com.svg'),
+          icon: SvgPicture.asset('assets/icons/cart-svgrepo-com.svg',
+              color: Colors.black),
         ),
         const SizedBox(
           width: kDefaultPadding / 2,

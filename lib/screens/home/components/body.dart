@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/catogery/catogery_screen.dart';
-import 'package:hash_ecommerce_user_sideapp/screens/home/components/header_with_searchbox.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/home/components/productlist_widget.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/home/components/title_with_morw_button.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +22,6 @@ class Body extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const HeaderWithSearchBox(),
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: kDefaultPadding, vertical: kDefaultPadding),
@@ -33,55 +32,19 @@ class Body extends StatelessWidget {
                 buttonPreview(
                   30,
                   70,
-                  'Catogery',
+                  'Category',
                   () {
-                    Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        builder: (context) => CatogeryScreen(),
-                      ),
-                    );
+                    Get.to(() => const CatogeryScreen(),
+                        transition: Transition.circularReveal,
+                        duration: const Duration(seconds: 2));
                   },
                 ),
               ],
             ),
           ),
+
           ////////////////////////////////*Product List widgets*///////////////////////////////////////
-          // StreamBuilder(
-          //   stream: Provider.of<Logics>(context).productDb.snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasData) {
-          //       return GridView.builder(
-          //         physics: const NeverScrollableScrollPhysics(),
-          //         shrinkWrap: true,
-          //         itemCount: snapshot.data!.docs.length,
-          //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          //           crossAxisCount: 2,
-          //           mainAxisSpacing: 20,
-          //         ),
-          //         itemBuilder: (context, index) {
-          //           final DocumentSnapshot productData =
-          //               snapshot.data!.docs[index];
-          //           return ProductWidgetList(
-          //               productData: productData,
-          //               image: 'assets/images/S4.png',
-          //               price: 243,
-          //               title: 'Merino Fleece Shirt',
-          //               press: () {
-          //                 Navigator.of(context).push(
-          //                   MaterialPageRoute(
-          //                     builder: (context) =>
-          //                         const ProductListWidgetScreen(),
-          //                   ),
-          //                 );
-          //               });
-          //         },
-          //       );
-          //     }
-          //     return const Center(
-          //       child: CircularProgressIndicator(),
-          //     );
-          //   },
-          // ),
+
           StreamBuilder(
             stream: Provider.of<Logics>(context).productDb.snapshots(),
             builder: (context, snapshot) {
@@ -91,25 +54,27 @@ class Body extends StatelessWidget {
                   addAutomaticKeepAlives: true,
                   shrinkWrap: true,
                   crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 30,
+                  // crossAxisSpacing: 30,
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     final DocumentSnapshot productData =
                         snapshot.data!.docs[index];
-                    return ProductWidgetList(
-                      productData: productData,
-                      image: 'assets/images/S4.png',
-                      price: 243,
-                      title: 'Merino Fleece Shirt',
-                      press: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                  ProductListWidgetScreen(productdata: productData),
-                          ),
-                        );
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ProductWidgetList(
+                        productData: productData,
+                        image: 'assets/images/S4.png',
+                        price: 243,
+                        title: 'Merino Fleece Shirt',
+                        press: () {
+                          Get.to(
+                              () => ProductListWidgetScreen(
+                                  productdata: productData),
+                              transition: Transition.fadeIn,
+                              duration: const Duration(seconds: 1));
+                        },
+                      ),
                     );
                   },
                   staggeredTileBuilder: (index) => const StaggeredTile.fit(1),

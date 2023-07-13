@@ -15,16 +15,11 @@ class MyWishListBody extends StatelessWidget {
         kSizedBox40,
         const WishListTitltandSearchbox(),
         Expanded(
-          child: ListView.separated(
+          child: ListView.builder(
             padding: const EdgeInsets.only(top: 20),
             itemCount: 5,
             itemBuilder: (context, index) {
               return const WishListProductListWidget();
-            },
-            separatorBuilder: (context, index) {
-              return const Divider(
-                color: Colors.black,
-              );
             },
           ),
         ),

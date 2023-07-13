@@ -14,15 +14,15 @@ class BottomNavBar extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: indexChangeNotifier,
       builder: (context, int newIndex, _) {
-        return SizedBox(
-          height: 115.h,
+        return Container(
+          color: kPrimaryColor,
           child: FloatingNavbar(
-              backgroundColor: Colors.white,
+              backgroundColor: kPrimaryColor,
               // padding: const EdgeInsets.all(10),
               elevation: 0,
-              selectedBackgroundColor: kPrimaryColor,
-              unselectedItemColor: kPrimaryColor,
-              margin: const EdgeInsets.only(bottom: 0, top: 0),
+              selectedBackgroundColor: Colors.white,
+              unselectedItemColor: Colors.white,
+              margin: const EdgeInsets.only(top: 0, right: 8, left: 8),
               items: [
                 FloatingNavbarItem(
                   icon: Icons.home,

@@ -5,28 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/authentication/auth.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/login_screen/components/forgetpassword.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/login_screen/components/textfields.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/login_screen/components/threetextfields.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/register/register_screen.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/widgettree.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailcontroller = TextEditingController();
-
-  TextEditingController passcontroller = TextEditingController();
-
-  bool login = false;
-
-  final formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             passcontroller: passcontroller),
                         kSizedBox10,
                         Text(
-                          errorMsg,
+                          Provider.of<Logics>(context).errorMsg,
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -97,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   GestureDetector(
                     onTap: () {
                       log('clicked');
-                      signinWithGoogle();
+                      signinWithGoogle(context);
                     },
                     child: Container(
                       height: 62.h,
@@ -163,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> signinWithGoogle() async {
+  Future<void> signinWithGoogle(context) async {
     try {
       await Auth().signinwithGoogle().then(
           (value) => Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -174,3 +163,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 }
+
+TextEditingController emailcontroller = TextEditingController();
+
+TextEditingController passcontroller = TextEditingController();
+
+bool login = false;
+
+final formkey = GlobalKey<FormState>();

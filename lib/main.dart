@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/pallettprovider.dart';
 import 'package:hash_ecommerce_user_sideapp/firebase_options.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/splash_screen/splashscreen.dart';
 import 'package:provider/provider.dart';
@@ -26,15 +29,23 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (context) => Logics(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PaletteProvider(),
           )
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: kPrimaryColor,
-            textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+            textTheme:
+                GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+              bodyColor: kTextColor,
+            ),
             visualDensity: VisualDensity.adaptivePlatformDensity,
-          ).copyWith(useMaterial3: true),
+          ).copyWith(
+            useMaterial3: true,
+          ),
           home: const SplashScreen(),
         ),
       ),

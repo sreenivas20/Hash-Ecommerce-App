@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-// const kPrimaryColor = Color(0xff0C9869);
-const kPrimaryColor = Color(0xff4A85AC);
+const kPrimaryColor = Colors.black;
+// const kPrimaryColor = Color(0xff4A85AC);
 const kTextColor = Color(0xff3C4046);
 const kBackgroundColor = Color(0xffF9F8FD);
 
@@ -18,4 +18,17 @@ const SizedBox kSizedBox5 = SizedBox(
 );
 const SizedBox kSizedBox40 = SizedBox(
   height: 40,
+);
+
+const SizedBox kwSizedBox20 = SizedBox(
+  width: 20,
+);
+const SizedBox kwSizedBox10 = SizedBox(
+  width: 10,
+);
+const SizedBox kwSizedBox5 = SizedBox(
+  width: 5,
+);
+const SizedBox kwSizedBox40 = SizedBox(
+  width: 40,
 );

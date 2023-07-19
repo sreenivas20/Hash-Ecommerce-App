@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
-import 'package:hash_ecommerce_user_sideapp/constants/logics/pallettprovider.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/cart/cart.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/home/components/body.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/myorder/myorder_screen.dart';
-import 'package:provider/provider.dart';
+
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});

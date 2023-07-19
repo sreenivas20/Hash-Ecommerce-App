@@ -1,9 +1,7 @@
-import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
 import 'package:provider/provider.dart';
 
@@ -25,10 +23,16 @@ class ProductWidgetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Provider.of<Logics>(context, listen: false).getWishList();
+    // });
     return Column(
       children: [
         Consumer<Logics>(
           builder: (context, provider, _) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              provider.getWishList();
+            });
             return Stack(children: [
               Container(
                 // color: Colors.transparent,
@@ -64,9 +68,25 @@ class ProductWidgetList extends StatelessWidget {
                               .contains(productData['id'])) {
                             provider.wishListList.remove(productData['id']);
                             provider.updateFirebase();
+                            Fluttertoast.showToast(
+                                msg: "Item Removed from wishlist 💔",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.white,
+                                textColor: Colors.red,
+                                fontSize: 16.0);
                           } else {
                             provider.wishListList.add(productData['id']);
                             provider.updateFirebase();
+                            Fluttertoast.showToast(
+                                msg: "Item added to wishlist ❤️",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.white,
+                                textColor: Colors.red,
+                                fontSize: 16.0);
                           }
                         },
                         icon: Icon(
@@ -103,7 +123,7 @@ class ProductWidgetList extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        kSizedBox5,
+                        // kSizedBox5,
                         RichText(
                           overflow: TextOverflow.ellipsis,
                           text: TextSpan(

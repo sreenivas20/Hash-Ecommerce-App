@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/authentication/auth.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/bottonnavbar/bottomnavbar.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/dashboard/components/dasboard_menu_and_title.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/dashboard/components/title_with_photo_dasboard_widget.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/myorder/myorder_screen.dart';
+import 'package:provider/provider.dart';
 
 class DashBoardBody extends StatelessWidget {
   const DashBoardBody({super.key});
@@ -34,13 +36,7 @@ class DashBoardBody extends StatelessWidget {
           DasboardMenuTiles(title: 'Privacy Policy', press: () {}),
           DasboardMenuTiles(
             title: 'Address',
-            press: () {
-              // Navigator.of(context).push(
-              //   CupertinoPageRoute(
-              //     builder: (context) => AddressScreen(),
-              //   ),
-              // );
-            },
+            press: () {},
           ),
           dashBoardLogoutButton(70.h, 2200.w, 'Logout', () {
             alertBox(context);
@@ -88,6 +84,7 @@ class DashBoardBody extends StatelessWidget {
                 onPressed: () {
                   signOut();
                   indexChangeNotifier.value = 0;
+                  Provider.of<Logics>(context,listen: false).wishListList.clear();
                   Navigator.pop(context);
                 },
                 child: const Text('Yes'))

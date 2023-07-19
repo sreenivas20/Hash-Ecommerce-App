@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/cart/components/cart_productList_with_quantitybutton.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/cart/components/promocodecart_widet.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/oder_summary_screen.dart';
 
 class CartBody extends StatelessWidget {
   const CartBody({
@@ -36,13 +38,18 @@ class CartBody extends StatelessWidget {
           // kSizedBox5,
           const PromocodecartWidget(),
           const BillingTextWidget(),
-          cartbuttonPreview(60.h, 1900.w, 'Proceed to Checout', () {})
+          cartbuttonPreview(60.h, 1900.w, 'Proceed to Checout', () {
+            Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => OrdersummaryScreen(),
+            ));
+          })
         ],
       ),
     );
   }
 
-  cartbuttonPreview(double height, double width, String text, Function press) {
+  cartbuttonPreview(
+      double height, double width, String text, Function() press) {
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       minimumSize: Size(width, height),
       backgroundColor: kPrimaryColor,
@@ -50,7 +57,7 @@ class CartBody extends StatelessWidget {
     );
     return TextButton(
       style: flatButtonStyle,
-      onPressed: () {},
+      onPressed: press,
       child: Text(
         text,
         style: const TextStyle(

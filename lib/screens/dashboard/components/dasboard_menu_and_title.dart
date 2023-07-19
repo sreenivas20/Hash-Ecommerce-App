@@ -15,7 +15,7 @@ class DasboardMenuTiles extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-        margin: const EdgeInsets.all(15),
+        margin: const EdgeInsets.all(12),
         height: 80.h,
         width: 2200.w,
         decoration: BoxDecoration(
@@ -23,13 +23,13 @@ class DasboardMenuTiles extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+          padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 30),
           child: Text(
             title,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                ?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
       ),

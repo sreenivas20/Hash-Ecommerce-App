@@ -109,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             const Padding(
-                              padding: EdgeInsets.only(right: 20.0),
+                              padding: EdgeInsets.only(right: 10.0),
                               child: Text(
                                 'Continue with Google signup..',
                                 style: TextStyle(

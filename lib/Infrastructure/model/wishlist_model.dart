@@ -7,7 +7,7 @@ class Model {
   Model({required this.wishlist});
 
   Future<void> addWishlist() async {
-    final refrence = FirebaseFirestore.instance.collection('user');
+    final refrence = FirebaseFirestore.instance.collection('users');
     final docreference = refrence.doc(FirebaseAuth.instance.currentUser!.email);
 
     final wishListadd = {

@@ -13,7 +13,7 @@ class WishListTitltandSearchbox extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: const EdgeInsets.all(18.0),
+          padding: const EdgeInsets.only(top: 18, bottom: 18, left: 18),
           child: Text(
             'My Wishlist',
             style: Theme.of(context)
@@ -23,9 +23,9 @@ class WishListTitltandSearchbox extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(right: 20),
+          margin: const EdgeInsets.only(right: 30),
           height: 80.h,
-          width: 1250.w,
+          width: 1220.w,
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black,

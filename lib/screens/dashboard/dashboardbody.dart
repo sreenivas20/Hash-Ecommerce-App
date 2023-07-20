@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/authentication/auth.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/address/address_screen.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/bottonnavbar/bottomnavbar.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/dashboard/components/dasboard_menu_and_title.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/dashboard/components/title_with_photo_dasboard_widget.dart';
@@ -36,7 +37,11 @@ class DashBoardBody extends StatelessWidget {
           DasboardMenuTiles(title: 'Privacy Policy', press: () {}),
           DasboardMenuTiles(
             title: 'Address',
-            press: () {},
+            press: () {
+              Navigator.of(context).push(CupertinoPageRoute(
+                builder: (context) => AddressScreen(),
+              ));
+            },
           ),
           dashBoardLogoutButton(70.h, 2200.w, 'Logout', () {
             alertBox(context);
@@ -84,7 +89,9 @@ class DashBoardBody extends StatelessWidget {
                 onPressed: () {
                   signOut();
                   indexChangeNotifier.value = 0;
-                  Provider.of<Logics>(context,listen: false).wishListList.clear();
+                  Provider.of<Logics>(context, listen: false)
+                      .wishListList
+                      .clear();
                   Navigator.pop(context);
                 },
                 child: const Text('Yes'))

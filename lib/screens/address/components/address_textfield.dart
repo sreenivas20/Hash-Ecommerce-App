@@ -11,8 +11,8 @@ class AddressTextField extends StatelessWidget {
     required this.validator,
   });
   final String? Function(String?) validator;
-  final height;
-  final width;
+  final double? height;
+  final  double? width;
   final keyBoardType;
   final TextEditingController controller;
   final String text;

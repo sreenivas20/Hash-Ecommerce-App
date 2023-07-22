@@ -36,8 +36,9 @@ class CartBody extends StatelessWidget {
             ),
           ),
           // kSizedBox5,
-          const PromocodecartWidget(),
+          // const PromocodecartWidget(),
           const BillingTextWidget(),
+          kSizedBox40,
           cartbuttonPreview(60.h, 1900.w, 'Proceed to Checout', () {
             Navigator.of(context).push(CupertinoPageRoute(
               builder: (context) => OrdersummaryScreen(),
@@ -76,22 +77,24 @@ class BillingTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(5),
-      height: 220.h,
+      height: 230.h,
       child: const Column(
         children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: BillingTextFormatWidget(text1: 'Sub Total', text2: '334'),
           ),
+          Divider(height: 2, color: Colors.black),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child:
                 BillingTextFormatWidget(text1: 'Shipping fee', text2: 'Free'),
           ),
-          Text(
-              '---------------------------------------------------------------------------------------------------'),
+          // Text(
+          //     '---------------------------------------------------------------------------------------------------'),
+          Divider(height: 2, color: Colors.black),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: BillingTextFormatWidget(text1: 'Total Amount', text2: '334'),
           )
         ],

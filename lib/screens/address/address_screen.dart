@@ -39,6 +39,9 @@ class AddressScreen extends StatelessWidget {
           ),
           Consumer<Logics>(
             builder: (context, provider, _) {
+              // WidgetsBinding.instance.addPostFrameCallback((_) {
+              //   provider.updateFirebase();
+              // });
               return StreamBuilder(
                 stream: Provider.of<Logics>(context).addressDb.snapshots(),
                 builder: (context, snapshot) {
@@ -52,9 +55,11 @@ class AddressScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final addressData = snapshot.data!.docs[index];
                           final bool isSelected =
-                              addressData['id'] == provider.selectedAddress;
+                              index == provider.selectedAddress;
+
                           return RadioListTile(
-                            value: addressData['id'],
+                            activeColor: Color.fromARGB(255, 137, 7, 157),
+                            value: index,
                             title: AddressTileWidget(
                               addressData: addressData,
                             ),
@@ -62,14 +67,17 @@ class AddressScreen extends StatelessWidget {
                             groupValue: provider.selectedAddress,
                             onChanged: (value) {
                               // provider.selectedAddress = index;
-                              provider
-                                  .addressseleted(addressData['id'] ?? [index]);
+                              provider.addressseleted(
+                                index,
+                              );
+                              provider.updateFirebase();
+                              provider.updateCurrentAddress(addressData['id']);
                               Fluttertoast.showToast(
                                 msg: 'Address selected',
                                 backgroundColor: Colors.green,
                                 fontSize: 15,
                               );
-                              log(provider.selectedAddress.toString());
+                              log(provider.onTap.toString());
                             },
                           );
                         },

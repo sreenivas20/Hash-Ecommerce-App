@@ -19,23 +19,62 @@ class Logics extends ChangeNotifier {
 
   final CollectionReference addressDb = FirebaseFirestore.instance
       .collection('users')
-      .doc(FirebaseAuth.instance.currentUser?.email)
+      .doc(FirebaseAuth.instance.currentUser!.email)
       .collection('Address');
 
+ 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getSelectedAddressStream() {
+    final ref = FirebaseFirestore.instance.collection('users');
+    final userDocRef = ref.doc(FirebaseAuth.instance.currentUser!.email);
+    final addressCollectionRef = userDocRef.collection('Address');
+
+    return addressCollectionRef.where('Bool', isEqualTo: true).snapshots();
+  }
+
   dynamic selectedAddress;
+  dynamic currentAddress;
   List showWishlist = [];
   String errorMsg = '';
   List wishListList = [];
   List<dynamic> wishlist = [];
+  bool onTap = false;
+
   void updateFirebase() {
     Model wishListobj = Model(wishlist: wishListList);
     wishListobj.addWishlist();
     notifyListeners();
   }
 
-  void addressseleted(index) {
+  void addressseleted(
+    index,
+  ) {
     selectedAddress = index;
+
     notifyListeners();
+  }
+
+  Future<void> updateCurrentAddress(String selectedAddress) async {
+    final ref = FirebaseFirestore.instance.collection('users');
+    final userDocRef = ref.doc(FirebaseAuth.instance.currentUser!.email);
+    final addressCollectionRef = userDocRef.collection('Address');
+
+    final batch = FirebaseFirestore.instance.batch();
+
+    // Fetch all addresses from the 'Address' collection
+    final querySnapshot = await addressCollectionRef.get();
+
+    // Loop through each address and update the 'Bool' field in the batch
+    for (final addressDoc in querySnapshot.docs) {
+      final docRef = addressDoc.reference;
+      final addressId = addressDoc.id;
+      final bool isSelected = (addressId == selectedAddress);
+
+      batch.update(docRef, {'Bool': isSelected});
+      notifyListeners();
+    }
+
+    // Commit the batch to update all addresses atomically
+    await batch.commit();
   }
 
   Future<void> getWishList() async {
@@ -49,7 +88,7 @@ class Logics extends ChangeNotifier {
         if (userData.containsKey('Wishlist')) {
           final dataList = List.from(userData['Wishlist']);
           wishListList = List<String>.from(dataList);
-          log(wishListList.toString());
+          // log(wishListList.toString());
         } else {
           log('Wishlist field does not exist in the document');
         }
@@ -93,7 +132,8 @@ class Logics extends ChangeNotifier {
         'city': address.city,
         'state': address.state,
         'House no': address.houseNo,
-        'Area': address.area
+        'Area': address.area,
+        'Bool': false,
       });
     } catch (e) {
       log(e.toString());
@@ -115,7 +155,7 @@ class Logics extends ChangeNotifier {
         'city': updatedAddress.city,
         'state': updatedAddress.state,
         'House no': updatedAddress.houseNo,
-        'Area': updatedAddress.area
+        'Area': updatedAddress.area,
       });
     } catch (e) {
       log(e.toString());

@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   floating_bottom_navigation_bar: ^1.5.2
+  floating_tabbar: ^0.0.9
   flutter:
     sdk: flutter
   flutter_animated_button: ^2.0.3

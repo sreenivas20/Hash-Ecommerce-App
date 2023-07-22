@@ -150,7 +150,8 @@ class ProductWidgetList extends StatelessWidget {
                   ),
                 ],
               ),
-            ))
+            )
+            )
       ],
     );
   }

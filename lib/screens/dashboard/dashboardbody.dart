@@ -39,7 +39,7 @@ class DashBoardBody extends StatelessWidget {
             title: 'Address',
             press: () {
               Navigator.of(context).push(CupertinoPageRoute(
-                builder: (context) => AddressScreen(),
+                builder: (context) => ScreenAddAddress(),
               ));
             },
           ),

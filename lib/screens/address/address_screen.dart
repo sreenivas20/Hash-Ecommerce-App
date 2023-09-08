@@ -1,138 +1,108 @@
-import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/app_color.dart/app_color.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
-import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/address/address_provider.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/address/add_address.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/address/components/addresslisttile.dart';
 import 'package:provider/provider.dart';
 
-class AddressScreen extends StatelessWidget {
-  const AddressScreen({super.key});
+class ScreenAddAddress extends StatelessWidget {
+  const ScreenAddAddress({super.key});
 
   @override
   Widget build(BuildContext context) {
-    log('updated');
+    final addressProvider =
+        Provider.of<AddressProvider>(context, listen: false);
+
+    final String email = FirebaseAuth.instance.currentUser!.email!;
     return Scaffold(
-      appBar: addressBuildAppbar(context),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Select address',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                addAddressButton(30, 50, "+ Add Address", () {
-                  Navigator.of(context).push(CupertinoPageRoute(
-                    builder: (context) => const AddAddressScreen(),
-                  ));
-                })
-              ],
-            ),
-          ),
-          Consumer<Logics>(
-            builder: (context, provider, _) {
-              // WidgetsBinding.instance.addPostFrameCallback((_) {
-              //   provider.updateFirebase();
-              // });
-              return StreamBuilder(
-                stream: Provider.of<Logics>(context).addressDb.snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.only(top: 10),
-                        itemCount: snapshot.data!.docs.length,
-                        shrinkWrap: true,
-                        // physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final addressData = snapshot.data!.docs[index];
-                          final bool isSelected =
-                              index == provider.selectedAddress;
-
-                          return RadioListTile(
-                            activeColor: Color.fromARGB(255, 137, 7, 157),
-                            value: index,
-                            title: AddressTileWidget(
-                              addressData: addressData,
-                            ),
-                            selected: isSelected,
-                            groupValue: provider.selectedAddress,
-                            onChanged: (value) {
-                              // provider.selectedAddress = index;
-                              provider.addressseleted(
-                                index,
-                              );
-                              provider.updateFirebase();
-                              provider.updateCurrentAddress(addressData['id']);
-                              Fluttertoast.showToast(
-                                msg: 'Address selected',
-                                backgroundColor: Colors.green,
-                                fontSize: 15,
-                              );
-                              log(provider.onTap.toString());
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              );
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  AppBar addressBuildAppbar(BuildContext context) {
-    return AppBar(
-      surfaceTintColor: Colors.transparent,
-      elevation: 0,
-      leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(Icons.arrow_back_ios),
-      ),
-      title: Padding(
-        padding: const EdgeInsets.only(left: 48),
-        child: Text(
-          'Address 🏠',
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium
-              ?.copyWith(fontSize: 25, color: Colors.black),
+      appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'Address',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
       ),
-    );
-  }
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Flexible(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(email)
+                      .collection('Address')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: CupertinoActivityIndicator(
+                        radius: 40,
+                      ));
+                    }
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Center(
+                          child: Text('No Address Found!',
+                              style: TextStyle(fontSize: 20)));
+                    }
 
-  addAddressButton(double height, double width, String text, Function() press) {
-    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      minimumSize: Size(width, height),
-      backgroundColor: kPrimaryColor,
-      padding: const EdgeInsets.all(10),
-    );
-    return TextButton(
-      style: flatButtonStyle,
-      onPressed: press,
-      child: Text(
-        text,
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                    return ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Consumer<AddressProvider>(
+                            builder: (context, value, child) => RadioListTile(
+                              activeColor: AppConstantsColor.materialThemeColor,
+                              contentPadding: const EdgeInsets.all(0),
+                              value: index,
+                              groupValue: value.selectedAddressIndex,
+                              onChanged: (value) {
+                                addressProvider.setSelectedAddressIndex(index);
+                                addressProvider.updateSelectedAddress(
+                                    snapshot.data!.docs[index].id);
+                                addressProvider.getDefaultAddress();
+                              },
+                              title: AddAddressCard(
+                                  data: snapshot.data!.docs[index]),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => kSizedBox10,
+                        itemCount: snapshot.data!.docs.length);
+                  }),
+            ),
+            kSizedBox10,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(0),
+                backgroundColor: AppConstantsColor.materialThemeColor,
+                foregroundColor: Colors.white,
+                fixedSize: Size(270.w, 10.h),
+                elevation: 2,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => const EditOrAddAddress(
+                        editOrAdd: true,
+                      ),
+                    ));
+              },
+              child: const Text(
+                'Add',
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

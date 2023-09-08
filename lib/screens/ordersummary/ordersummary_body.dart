@@ -1,22 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/app_color.dart/app_color.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/address/address_provider.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/cart/cart_provider.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/logics/logics.dart';
 
 import 'package:hash_ecommerce_user_sideapp/screens/address/address_screen.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/components/address_card.dart';
+import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/components/continuorder_button.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/components/ordersummarycardlist.dart';
 import 'package:provider/provider.dart';
 
 class OrderSummaryBody extends StatelessWidget {
   const OrderSummaryBody({
     super.key,
+    required this.totalPrice,
   });
-
+  final int totalPrice;
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Provider.of<Logics>(context, listen: false).updateFirebase();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<AddressProvider>(context, listen: false).getDefaultAddress();
+    });
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -39,7 +48,7 @@ class OrderSummaryBody extends StatelessWidget {
                               .withOpacity(0.2))),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AddressScreen(),
+                      builder: (context) => const ScreenAddAddress(),
                     ));
                   },
                   child: const Text(
@@ -50,85 +59,60 @@ class OrderSummaryBody extends StatelessWidget {
               ],
             ),
           ),
-          StreamBuilder(
-            stream: Provider.of<Logics>(context)
-                .addressDb
-                .where('Bool', isEqualTo: true)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (snapshot.data?.docs.isEmpty ?? true) {
-                return const Text('No address selected.');
-              } else {
-                final selectedAddressSnapshot = snapshot.data!.docs[0];
-
-                return Container(
-                  height: 450.h,
-                  width: 2100.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            offset: const Offset(0, 3),
-                            blurRadius: 5,
-                            spreadRadius: 0,
-                            color: Colors.black.withOpacity(0.2)),
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0, top: 18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Name : ${selectedAddressSnapshot['Name']} ',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        kSizedBox20,
-                        Text(
-                          'Phone Number : ${selectedAddressSnapshot['PhoneNumber']} ',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        kSizedBox20,
-                        Text(
-                          'Pin Code : ${selectedAddressSnapshot['pincode']}',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        kSizedBox20,
-                        Text(
-                          'City : ${selectedAddressSnapshot['city']}',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        kSizedBox20,
-                        Text(
-                          'State : ${selectedAddressSnapshot['state']}',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        kSizedBox20,
-                        Text(
-                          'House no : ${selectedAddressSnapshot['House no']}',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        kSizedBox20,
-                        Text(
-                          'Area,street : ${selectedAddressSnapshot['Area']}',
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
+          Consumer<AddressProvider>(
+              builder: (context, value, child) =>
+                  value.selectedAddressId.isNotEmpty
+                      ? StreamBuilder(
+                          stream: value.getSelectedAddressStream(),
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AddressCard(data: snapshot.data),
+                              );
+                            }
+                          },
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(25).r,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Center(
+                                child: Text('No Address were added',
+                                    style: TextStyle(fontSize: 20)),
+                              ),
+                              TextButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) =>
+                                            const ScreenAddAddress(),
+                                      ));
+                                },
+                                icon: const Icon(CupertinoIcons.add),
+                                label: const Text(
+                                  'Add Address',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.all(
+                                        AppConstantsColor.materialThemeColor)),
+                              )
+                            ],
+                          ),
+                        )),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
             child: Row(
@@ -142,14 +126,39 @@ class OrderSummaryBody extends StatelessWidget {
           ),
           SizedBox(
             height: 900.h,
-            child: ListView.builder(
-              itemCount: 2,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return const Padding(
-                  padding:
-                      EdgeInsets.only(right: 18.0, left: 18, bottom: 8, top: 8),
-                  child: OrderSummaryCardListWidget(),
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance
+                  .collection('products')
+                  .where('id',
+                      whereIn:
+                          Provider.of<CartProvider>(context, listen: false).ids)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return const Center(
+                      child: CupertinoActivityIndicator(
+                    radius: 40,
+                  ));
+                }
+                if (snapshot.hasError) {
+                  return const Text('Somthing went wrong');
+                }
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot data = snapshot.data!.docs[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            right: 18.0, left: 18, bottom: 8, top: 8),
+                        child: OrderSummaryCardListWidget(data: data),
+                      );
+                    },
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
               },
             ),

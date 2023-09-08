@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
-import 'package:hash_ecommerce_user_sideapp/screens/home/components/title_with_morw_button.dart';
-import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/oder_summary_screen.dart';
 
 class AddToCartAndBuyButton extends StatelessWidget {
   const AddToCartAndBuyButton({
@@ -32,13 +29,13 @@ class AddToCartAndBuyButton extends StatelessWidget {
             ),
           ),
         ),
-        buttonPreview(66.h, 1500.r, 'BUY NOW', () {
-          Navigator.of(context).push(
-            CupertinoPageRoute(
-              builder: (context) => OrdersummaryScreen(),
-            ),
-          );
-        }),
+        // buttonPreview(66.h, 1500.r, 'BUY NOW', () {
+        //   Navigator.of(context).push(
+        //     CupertinoPageRoute(
+        //       builder: (context) => OrdersummaryScreen(),
+        //     ),
+        //   );
+        // }),
       ],
     );
   }

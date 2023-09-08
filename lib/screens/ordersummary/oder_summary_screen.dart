@@ -3,8 +3,8 @@ import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/components/orde
 import 'package:hash_ecommerce_user_sideapp/screens/ordersummary/ordersummary_body.dart';
 
 class OrdersummaryScreen extends StatelessWidget {
-  const OrdersummaryScreen({super.key});
-
+  const OrdersummaryScreen({super.key, required this.totalPrice});
+  final int totalPrice;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,8 +15,8 @@ class OrdersummaryScreen extends StatelessWidget {
           style: TextStyle(fontSize: 26),
         ),
       ),
-      body: OrderSummaryBody(),
-      bottomSheet: const BottomSheetcontinueButton(),
+      body: OrderSummaryBody(totalPrice: totalPrice),
+      bottomSheet:  BottomSheetcontinueButton(totalPrice: totalPrice),
     );
   }
 }

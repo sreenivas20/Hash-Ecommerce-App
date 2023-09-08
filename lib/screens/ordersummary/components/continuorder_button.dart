@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/app_color.dart/app_color.dart';
+import 'package:provider/provider.dart';
+
+
+class ContinueOrderButton extends StatelessWidget {
+  const ContinueOrderButton({
+    super.key, required this.totalPrice,
+  });
+ final int totalPrice;
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: AppConstantsColor.materialThemeColor,
+            foregroundColor: AppConstantsColor.lightTextColor,
+          ),
+          onPressed: () {
+            // Provider.of<AddressProvider>(context, listen: false)
+            //         .selectedAddressId
+            //         .isNotEmpty
+            //     ? Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) =>  ScreenPaymet(totalPrice: totalPrice),
+            //         ))
+            //     : Fluttertoast.showToast(
+            //         msg: 'Select one address to continue',
+            //         toastLength: Toast.LENGTH_SHORT,
+            //       );
+          },
+          child: const Text(
+            'Continue With Order',
+            style: TextStyle(fontSize: 25),
+          )),
+    );
+  }
+}

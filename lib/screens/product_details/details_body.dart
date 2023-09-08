@@ -3,8 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hash_ecommerce_user_sideapp/Infrastructure/model/cart_model.dart';
 import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/cart/cart_provider.dart';
+import 'package:hash_ecommerce_user_sideapp/constants/logics/product_details_provider/product_details_provider.dart';
 import 'package:input_quantity/input_quantity.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsBody extends StatelessWidget {
   const ProductDetailsBody({super.key, required this.productData});
@@ -27,15 +31,26 @@ class ProductDetailsBody extends StatelessWidget {
               padding: const EdgeInsets.only(top: 18.0, left: 18, right: 18),
               child: ProductNameAndPriceWidget(productData: productData),
             ),
-            SizedBox(
-              height: 90.h,
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: productData['size'].length,
-                itemBuilder: (context, index) {
-                  return SizeButton(size: productData['size'][index]);
-                },
+            Consumer<ProductDetailProvider>(
+              builder: (context, value, child) => SizedBox(
+                height: 90.h,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: productData['size'].length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => value.selectSize(productData['size'][index]),
+                      child: SizeButton(
+                        // Use the SizeButton widget
+                        size: productData['size'][index],
+                        color: productData['size'][index] == value.isSelected
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
             Center(
@@ -59,7 +74,19 @@ class ProductDetailsBody extends StatelessWidget {
                     elevation: MaterialStateProperty.all(15),
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => Colors.black)),
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<CartProvider>(context, listen: false).addToCart(
+                      CartModel(
+                          id: productData['id'],
+                          size: Provider.of<ProductDetailProvider>(context,
+                                  listen: false)
+                              .isSelected,
+                          count: 1,
+                          price: int.parse(productData['price']),
+                          quantity: int.parse(productData['quantity'] ?? 0),
+                          totalPrice: int.parse(productData['price'])));
+                  Provider.of<CartProvider>(context, listen: false).getDocId();
+                },
                 child: Row(
                   children: [
                     kwSizedBox40,
@@ -143,7 +170,7 @@ class ProductNameAndPriceWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: kPrimaryColor,
-                  fontSize: 30),
+                  fontSize: 25),
             ),
           ],
         ),
@@ -167,26 +194,6 @@ class ProductNameAndPriceWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: kPrimaryColor,
                   ),
-            ),
-            InputQty(
-              maxVal: 5,
-              initVal: 1,
-              steps: 1,
-              minVal: 1,
-              showMessageLimit: false,
-              borderShape: BorderShapeBtn.circle,
-              boxDecoration: const BoxDecoration(),
-              minusBtn: const Icon(Icons.remove, size: 18),
-              plusBtn: const Icon(
-                Icons.add,
-                size: 18,
-              ),
-              btnColor1: Colors.black,
-              onQtyChanged: (val) {
-                if (kDebugMode) {
-                  print(val);
-                }
-              },
             ),
           ],
         )

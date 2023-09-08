@@ -6,7 +6,7 @@ import 'package:hash_ecommerce_user_sideapp/constants/constants.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/cart/cart.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/home/components/body.dart';
 import 'package:hash_ecommerce_user_sideapp/screens/myorder/myorder_screen.dart';
-
+import 'package:hash_ecommerce_user_sideapp/search/searchscreen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -49,6 +49,19 @@ class HomeScreen extends StatelessWidget {
       actions: [
         Row(
           children: [
+            IconButton(
+                onPressed: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => const ScreenSearch(),
+                      ),
+                    ),
+                icon: const Icon(
+                  CupertinoIcons.search,
+                  color: Colors.white,
+                  size: 30,
+                )),
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -138,6 +151,19 @@ class CustomSilverAppBar extends StatelessWidget {
         actions: [
           Row(
             children: [
+              IconButton(
+                  onPressed: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => const ScreenSearch(),
+                        ),
+                      ),
+                  icon: const Icon(
+                    CupertinoIcons.search,
+                    color: Colors.white,
+                    size: 30,
+                  )),
               IconButton(
                 onPressed: () {
                   Navigator.of(context).push(

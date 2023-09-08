@@ -8,6 +8,7 @@ import 'package:hash_ecommerce_user_sideapp/Infrastructure/model/wishlist_model.
 
 class Logics extends ChangeNotifier {
   User? currentUser = FirebaseAuth.instance.currentUser;
+  String selectedAddressId = '';
 
   // final documentSnapshot = FirebaseFirestore.instance
   //     .collection('users')
@@ -22,7 +23,6 @@ class Logics extends ChangeNotifier {
       .doc(FirebaseAuth.instance.currentUser!.email)
       .collection('Address');
 
- 
   Stream<QuerySnapshot<Map<String, dynamic>>> getSelectedAddressStream() {
     final ref = FirebaseFirestore.instance.collection('users');
     final userDocRef = ref.doc(FirebaseAuth.instance.currentUser!.email);
@@ -54,16 +54,15 @@ class Logics extends ChangeNotifier {
   }
 
   Future<void> updateCurrentAddress(String selectedAddress) async {
+    // selectedAddressId = selectedAddress;
     final ref = FirebaseFirestore.instance.collection('users');
     final userDocRef = ref.doc(FirebaseAuth.instance.currentUser!.email);
     final addressCollectionRef = userDocRef.collection('Address');
 
     final batch = FirebaseFirestore.instance.batch();
 
-    // Fetch all addresses from the 'Address' collection
     final querySnapshot = await addressCollectionRef.get();
 
-    // Loop through each address and update the 'Bool' field in the batch
     for (final addressDoc in querySnapshot.docs) {
       final docRef = addressDoc.reference;
       final addressId = addressDoc.id;
@@ -73,7 +72,6 @@ class Logics extends ChangeNotifier {
       notifyListeners();
     }
 
-    // Commit the batch to update all addresses atomically
     await batch.commit();
   }
 

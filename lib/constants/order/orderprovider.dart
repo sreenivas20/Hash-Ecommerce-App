@@ -8,7 +8,7 @@ class OrdersProvider extends ChangeNotifier {
   List myFields = [];
   final User? currentUser = FirebaseAuth.instance.currentUser;
   Map<String, dynamic>? data;
-  void orderItemAndDeletFromCart() async {
+  void  orderItemAndDeletFromCart() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference userRef = firestore.collection('users');
     CollectionReference cartRef =
